@@ -16,7 +16,10 @@ db = SQLAlchemy(model_class=Base)
 
 # create the app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
+app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key-very-secure")
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['PERMANENT_SESSION_LIFETIME'] = 1800  # 30 minutes
+app.config['SESSION_COOKIE_SECURE'] = False  # Set to True in production with HTTPS
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)  # needed for url_for to generate with https
 
 # Configure the database - using SQLite for simplicity
@@ -44,7 +47,13 @@ from models import User  # noqa: E402
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    print(f"=== Loading user with ID: {user_id} ===")
+    user = User.query.get(int(user_id))
+    if user:
+        print(f"User found: {user.username}, authenticated: {user.is_authenticated}")
+    else:
+        print("No user found with this ID")
+    return user
 
 with app.app_context():
     # Import the models

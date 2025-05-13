@@ -1,5 +1,6 @@
-from flask import render_template, request, redirect, url_for, flash, jsonify, abort
+from flask import render_template, request, redirect, url_for, flash, jsonify, abort, session, make_response
 from flask_login import login_user, logout_user, login_required, current_user
+from urllib.parse import urlparse
 import json
 import logging
 import datetime
@@ -25,9 +26,16 @@ message_handler = MessageHandler()
 
 @app.route('/')
 def index():
+    # Add a consistent message to help with debugging
+    print("=== Index route accessed ===")
+    print(f"Is user authenticated: {current_user.is_authenticated}")
+    
     if current_user.is_authenticated:
+        print(f"User is authenticated, redirecting to dashboard: {current_user.username}")
         return redirect(url_for('dashboard'))
-    return redirect(url_for('login'))
+    else:
+        print("User is not authenticated, redirecting to login")
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -58,9 +66,25 @@ def login():
                 print(f"Password check result: {password_check}")
                 
                 if password_check:
-                    login_user(user)
+                    # Make session permanent to avoid session cookie loss
+                    session.permanent = True
+                    
+                    # Set remember=True for persistent cookies
+                    login_user(user, remember=True)
+                    
                     print(f"User logged in successfully: {user.username}")
-                    return redirect(url_for('dashboard'))
+                    
+                    # Get the next page or default to dashboard
+                    next_page = request.args.get('next')
+                    if not next_page or urlparse(next_page).netloc != '':
+                        next_page = url_for('dashboard')
+                    
+                    # Ensure cookie is set before redirect
+                    response = make_response(redirect(next_page))
+                    response.headers['Cache-Control'] = 'no-store, no-cache, must-revalidate, max-age=0'
+                    response.headers['Pragma'] = 'no-cache'
+                    response.headers['Expires'] = '-1'
+                    return response
                 else:
                     print("Password verification failed")
                     flash('Invalid email or password', 'danger')
