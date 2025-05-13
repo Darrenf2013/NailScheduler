@@ -1,0 +1,160 @@
+/* Custom CSS Styles */
+
+/* General Styles */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer {
+    margin-top: auto;
+}
+
+/* Card Styles */
+.card {
+    border-radius: 0.5rem;
+    border: none;
+}
+
+.card-header {
+    border-top-left-radius: 0.5rem !important;
+    border-top-right-radius: 0.5rem !important;
+}
+
+.card-footer {
+    border-bottom-left-radius: 0.5rem !important;
+    border-bottom-right-radius: 0.5rem !important;
+}
+
+/* Navigation */
+.navbar-brand {
+    font-weight: 600;
+}
+
+/* Dashboard Stats */
+.stats-card {
+    transition: transform 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    font-size: 2rem;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Calendar Styles */
+.fc-event {
+    cursor: pointer;
+}
+
+.fc-day-today {
+    background-color: rgba(var(--bs-info-rgb), 0.1) !important;
+}
+
+/* Messages */
+.message-bubble {
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    max-width: 75%;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.message-bubble.client {
+    background-color: var(--bs-secondary-bg);
+    margin-right: auto;
+    border-bottom-left-radius: 0;
+}
+
+.message-bubble.beautician {
+    background-color: var(--bs-primary-bg-subtle);
+    margin-left: auto;
+    border-bottom-right-radius: 0;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    color: var(--bs-secondary-color);
+}
+
+/* Time slots */
+.time-slot {
+    border-left: 4px solid var(--bs-primary);
+    padding-left: 1rem;
+}
+
+.time-slot.unavailable {
+    border-left-color: var(--bs-danger);
+}
+
+/* Status badges */
+.status-badge {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* Client list */
+.client-avatar {
+    width: 48px;
+    height: 48px;
+    background-color: var(--bs-secondary-bg);
+    color: var(--bs-body-color);
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Platform Icons */
+.platform-icon {
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.platform-icon.messenger {
+    background-color: #006AFF;
+    color: white;
+}
+
+.platform-icon.instagram {
+    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    color: white;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .message-bubble {
+        max-width: 85%;
+    }
+}
