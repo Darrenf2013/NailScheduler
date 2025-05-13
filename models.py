@@ -6,6 +6,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class User(UserMixin, db.Model):
+    __tablename__ = 'users_table'  # Avoid using 'user' which is a reserved keyword
+    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
@@ -40,7 +42,7 @@ class Client(db.Model):
 
 class TimeSlot(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
     date = db.Column(db.Date, nullable=False)
     start_time = db.Column(db.Time, nullable=False)
     end_time = db.Column(db.Time, nullable=False)
@@ -52,7 +54,7 @@ class TimeSlot(db.Model):
 
 class Appointment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
     client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=False)
     service_type = db.Column(db.String(120))
     date = db.Column(db.Date, nullable=False)
@@ -68,7 +70,7 @@ class Appointment(db.Model):
 
 class Service(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     description = db.Column(db.Text)
     duration = db.Column(db.Integer, nullable=False)  # Duration in minutes
@@ -105,7 +107,7 @@ class Message(db.Model):
 
 class Settings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users_table.id'), nullable=False)
     business_hours = db.Column(db.Text)  # Stored as JSON
     auto_reply_enabled = db.Column(db.Boolean, default=True)
     default_appointment_duration = db.Column(db.Integer, default=60)  # minutes
