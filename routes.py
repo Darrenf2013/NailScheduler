@@ -38,12 +38,23 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
+        # Debug logging
+        logger.debug(f"Login attempt for email: {email}")
+        
         user = User.query.filter_by(email=email).first()
         
-        if user and user.check_password(password):
-            login_user(user)
-            return redirect(url_for('dashboard'))
+        if user:
+            password_check = user.check_password(password)
+            logger.debug(f"User found. Password check result: {password_check}")
+            if password_check:
+                login_user(user)
+                logger.debug(f"User logged in successfully: {user.username}")
+                return redirect(url_for('dashboard'))
+            else:
+                logger.debug("Invalid password")
+                flash('Invalid email or password', 'danger')
         else:
+            logger.debug("No user found with this email")
             flash('Invalid email or password', 'danger')
     
     return render_template('login.html')
