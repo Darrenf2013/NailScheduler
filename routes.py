@@ -38,23 +38,37 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         
-        # Debug logging
-        logger.debug(f"Login attempt for email: {email}")
+        # Debug logging - use print for better visibility
+        print(f"=== Login attempt for email: {email} ===")
         
+        # Try finding user by email first
         user = User.query.filter_by(email=email).first()
         
+        if not user:
+            # If no user by email, try by username
+            user = User.query.filter_by(username=email).first()
+            print(f"No user found by email, trying username lookup: {user is not None}")
+        
         if user:
-            password_check = user.check_password(password)
-            logger.debug(f"User found. Password check result: {password_check}")
-            if password_check:
-                login_user(user)
-                logger.debug(f"User logged in successfully: {user.username}")
-                return redirect(url_for('dashboard'))
-            else:
-                logger.debug("Invalid password")
-                flash('Invalid email or password', 'danger')
+            print(f"User found: ID={user.id}, Username={user.username}")
+            print(f"Password hash exists: {user.password_hash is not None}")
+            
+            try:
+                password_check = user.check_password(password)
+                print(f"Password check result: {password_check}")
+                
+                if password_check:
+                    login_user(user)
+                    print(f"User logged in successfully: {user.username}")
+                    return redirect(url_for('dashboard'))
+                else:
+                    print("Password verification failed")
+                    flash('Invalid email or password', 'danger')
+            except Exception as e:
+                print(f"Error checking password: {str(e)}")
+                flash('An error occurred during login', 'danger')
         else:
-            logger.debug("No user found with this email")
+            print("No user found with this email or username")
             flash('Invalid email or password', 'danger')
     
     return render_template('login.html')
