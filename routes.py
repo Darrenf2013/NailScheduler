@@ -82,6 +82,10 @@ def logout():
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    # Debug information 
+    print(f"=== Dashboard accessed by user ID: {current_user.id}, Username: {current_user.username} ===")
+    print(f"Is authenticated: {current_user.is_authenticated}")
+    
     # Get today's date
     today = datetime.date.today()
     
