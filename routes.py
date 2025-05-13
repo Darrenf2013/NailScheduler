@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Add function to add current datetime to templates
 @app.context_processor
 def inject_now():
-    return {'now': datetime.datetime.now}
+    return {'now': datetime.datetime.now()}
 
 # Initialize logging
 logger = logging.getLogger(__name__)
