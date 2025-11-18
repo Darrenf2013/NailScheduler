@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Our Portfolio - Beautiful Work Gallery{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3">
+        <i class="fas fa-images me-3"></i>
+        Our Portfolio
+    </h1>
+    <p class="lead text-muted">Explore our collection of beautiful nail art, lashes, and brows</p>
+</div>
+
+<!-- Category Filter -->
+<div class="container mb-4">
+    <div class="d-flex justify-content-center flex-wrap gap-2">
+        <a href="{{ url_for('portfolio', category='all') }}"
+           class="btn {% if selected_category == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            <i class="fas fa-th me-1"></i> All
+        </a>
+        {% for category in categories %}
+        <a href="{{ url_for('portfolio', category=category.name) }}"
+           class="btn {% if selected_category == category.name %}btn-primary{% else %}btn-outline-primary{% endif %}">
+            <i class="fas fa-filter me-1"></i> {{ category.display_name }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Portfolio Gallery -->
+<div class="container">
+    {% if items %}
+    <div class="row g-4">
+        {% for item in items %}
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="portfolio-item card bg-dark border-0 overflow-hidden h-100">
+                {% if item.media_type == 'image' %}
+                <img src="{{ item.media_url }}"
+                     class="card-img-top portfolio-media"
+                     alt="{{ item.title or 'Portfolio Image' }}"
+                     data-bs-toggle="modal"
+                     data-bs-target="#mediaModal{{ item.id }}">
+                {% else %}
+                <div class="video-wrapper">
+                    <video class="card-img-top portfolio-media" controls>
+                        <source src="{{ item.media_url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    {% if item.thumbnail_url %}
+                    <img src="{{ item.thumbnail_url }}" class="video-thumbnail" alt="Video thumbnail">
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                {% if item.title or item.description or item.category %}
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        {% if item.title %}
+                        <h5 class="card-title mb-0">{{ item.title }}</h5>
+                        {% endif %}
+                        {% if item.category %}
+                        <span class="badge bg-primary">{{ item.category.display_name }}</span>
+                        {% endif %}
+                    </div>
+                    {% if item.description %}
+                    <p class="card-text text-muted small mt-2">{{ item.description }}</p>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Modal for enlarged view -->
+            {% if item.media_type == 'image' %}
+            <div class="modal fade" id="mediaModal{{ item.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content bg-dark">
+                        <div class="modal-header border-0">
+                            <h5 class="modal-title">{{ item.title or 'Portfolio Image' }}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-0">
+                            <img src="{{ item.media_url }}" class="img-fluid w-100" alt="{{ item.title }}">
+                        </div>
+                        {% if item.description %}
+                        <div class="modal-footer border-0">
+                            <p class="text-muted mb-0">{{ item.description }}</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="fas fa-image fa-4x text-muted mb-4"></i>
+        <h3 class="text-muted">No portfolio items yet</h3>
+        <p class="text-muted">Check back soon to see our beautiful work!</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Call to Action -->
+<div class="container mt-5">
+    <div class="cta-box text-center p-5 rounded">
+        <h3 class="mb-3">Love What You See?</h3>
+        <p class="lead mb-4">Book your appointment and get the look you've always wanted</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-calendar-check me-2"></i>Book Now
+            </a>
+            <a href="{{ url_for('services_page') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-list me-2"></i>View Services
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        padding: 2rem 0;
+    }
+
+    .portfolio-media {
+        height: 350px;
+        object-fit: cover;
+        width: 100%;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .portfolio-item:hover .portfolio-media {
+        transform: scale(1.05);
+    }
+
+    .portfolio-item {
+        transition: box-shadow 0.3s ease;
+    }
+
+    .portfolio-item:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .video-wrapper {
+        position: relative;
+    }
+
+    .video-thumbnail {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        pointer-events: none;
+    }
+
+    video::-webkit-media-controls {
+        display: flex;
+    }
+
+    .cta-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .modal-content {
+        border: none;
+    }
+
+    .modal-body img {
+        border-radius: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .portfolio-media {
+            height: 250px;
+        }
+    }
+</style>
+{% endblock %}

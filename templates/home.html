@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Beautiful Nails, Lashes & Brows - Your Beauty Destination{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section text-center text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-3 fw-bold mb-4">
+                    <i class="fas fa-sparkles me-3"></i>
+                    Beauty Beyond Perfection
+                </h1>
+                <p class="lead mb-4">
+                    Expert nail art, stunning eyelashes, and perfectly shaped eyebrows.
+                    Transform your look with our professional beauty services.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="{{ url_for('portfolio') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-images me-2"></i>View Portfolio
+                    </a>
+                    <a href="{{ url_for('services_page') }}" class="btn btn-outline-light btn-lg px-4">
+                        <i class="fas fa-list me-2"></i>Our Services
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-calendar-check me-2"></i>Book Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Services Preview Section -->
+<div class="container mb-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">Our Services</h2>
+        <p class="lead text-muted">Professional beauty treatments tailored just for you</p>
+    </div>
+
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="service-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="service-icon mb-3">
+                        <i class="fas fa-hand-sparkles fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="card-title mb-3">Nail Art</h4>
+                    <p class="card-text text-muted">
+                        From classic manicures to intricate nail art designs.
+                        Let your nails make a statement with our expert techniques.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="service-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="service-icon mb-3">
+                        <i class="fas fa-eye fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="card-title mb-3">Eyelashes</h4>
+                    <p class="card-text text-muted">
+                        Beautiful, natural-looking lash extensions that enhance your eyes.
+                        Wake up gorgeous every day!
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="service-card card h-100 border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    <div class="service-icon mb-3">
+                        <i class="fas fa-border-top-left fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="card-title mb-3">Eyebrows</h4>
+                    <p class="card-text text-muted">
+                        Perfectly shaped and defined brows that frame your face beautifully.
+                        Professional shaping and tinting.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
+        <a href="{{ url_for('services_page') }}" class="btn btn-primary btn-lg">
+            View All Services & Pricing <i class="fas fa-arrow-right ms-2"></i>
+        </a>
+    </div>
+</div>
+
+<!-- Portfolio Preview Section -->
+{% if featured_items %}
+<div class="portfolio-preview py-5 bg-dark bg-opacity-25">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Our Work</h2>
+            <p class="lead text-muted">See the beautiful transformations we create</p>
+        </div>
+
+        <div class="row g-4 mb-4">
+            {% for item in featured_items %}
+            <div class="col-md-4 col-sm-6">
+                <div class="portfolio-item card bg-dark border-0 overflow-hidden">
+                    {% if item.media_type == 'image' %}
+                    <img src="{{ item.media_url }}" class="card-img-top portfolio-img" alt="{{ item.title }}">
+                    {% else %}
+                    <div class="video-wrapper">
+                        <video class="card-img-top portfolio-video" controls>
+                            <source src="{{ item.media_url }}" type="video/mp4">
+                        </video>
+                    </div>
+                    {% endif %}
+                    {% if item.title or item.description %}
+                    <div class="card-body">
+                        {% if item.title %}
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        {% endif %}
+                        {% if item.description %}
+                        <p class="card-text text-muted small">{{ item.description }}</p>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center">
+            <a href="{{ url_for('portfolio') }}" class="btn btn-primary btn-lg">
+                View Full Portfolio <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Testimonials Section -->
+{% if testimonials %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h2 class="display-5 fw-bold mb-3">What Our Clients Say</h2>
+        <p class="lead text-muted">Real experiences from our valued customers</p>
+    </div>
+
+    <div class="row g-4">
+        {% for testimonial in testimonials %}
+        <div class="col-md-4">
+            <div class="card h-100 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="mb-3">
+                        {% for i in range(testimonial.rating) %}
+                        <i class="fas fa-star text-warning"></i>
+                        {% endfor %}
+                    </div>
+                    <p class="card-text mb-3">"{{ testimonial.content }}"</p>
+                    <div class="d-flex align-items-center">
+                        <div class="avatar-circle bg-primary text-white me-2">
+                            {{ testimonial.client_name[0].upper() }}
+                        </div>
+                        <div>
+                            <h6 class="mb-0">{{ testimonial.client_name }}</h6>
+                            {% if testimonial.service_type %}
+                            <small class="text-muted">{{ testimonial.service_type }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<!-- Call to Action Section -->
+<div class="cta-section text-center text-white py-5 mb-5">
+    <div class="container">
+        <h2 class="display-5 fw-bold mb-3">Ready to Look Amazing?</h2>
+        <p class="lead mb-4">Book your appointment today and experience the difference</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-5">
+                <i class="fas fa-calendar-check me-2"></i>Book Appointment
+            </a>
+            <a href="{{ url_for('about') }}" class="btn btn-outline-light btn-lg px-5">
+                <i class="fas fa-info-circle me-2"></i>Learn More
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Contact Info Section -->
+<div class="container py-5">
+    <div class="row g-4">
+        <div class="col-md-4 text-center">
+            <div class="contact-info-item">
+                <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                <h5>Visit Us</h5>
+                <p class="text-muted">Your location here</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="contact-info-item">
+                <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                <h5>Call Us</h5>
+                <p class="text-muted">Contact for phone number</p>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="contact-info-item">
+                <i class="fas fa-clock fa-2x text-primary mb-3"></i>
+                <h5>Opening Hours</h5>
+                <p class="text-muted">By Appointment</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 1rem;
+        margin-bottom: 3rem;
+    }
+
+    .min-vh-50 {
+        min-height: 50vh;
+    }
+
+    .service-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+    }
+
+    .service-icon {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .portfolio-img, .portfolio-video {
+        height: 300px;
+        object-fit: cover;
+        width: 100%;
+    }
+
+    .portfolio-item {
+        transition: transform 0.3s ease;
+        cursor: pointer;
+    }
+
+    .portfolio-item:hover {
+        transform: scale(1.05);
+    }
+
+    .avatar-circle {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+    }
+
+    .cta-section {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 1rem;
+    }
+
+    .contact-info-item {
+        padding: 2rem 1rem;
+    }
+</style>
+{% endblock %}

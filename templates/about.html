@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+
+{% block title %}About Us - Your Beauty Expert{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<div class="page-header text-center mb-5">
+    <h1 class="display-4 fw-bold mb-3">
+        <i class="fas fa-heart me-3"></i>
+        About Us
+    </h1>
+    <p class="lead text-muted">Passion for beauty, dedication to excellence</p>
+</div>
+
+<!-- About Content -->
+<div class="container">
+    <!-- Story Section -->
+    <div class="row mb-5 align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="about-image-placeholder bg-dark bg-opacity-25 rounded d-flex align-items-center justify-content-center">
+                <i class="fas fa-camera fa-4x text-muted"></i>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-4">Our Story</h2>
+            <p class="lead">
+                {% if user and user.business_name %}
+                Welcome to {{ user.business_name }}, where beauty meets artistry.
+                {% else %}
+                Welcome to our beauty studio, where beauty meets artistry.
+                {% endif %}
+            </p>
+            <p class="text-muted">
+                We are passionate about helping you look and feel your absolute best. With years of
+                experience in nail art, eyelash extensions, and eyebrow services, we bring creativity,
+                precision, and care to every appointment.
+            </p>
+            <p class="text-muted">
+                Our mission is simple: to provide exceptional beauty services in a welcoming,
+                professional environment. We stay up-to-date with the latest trends and techniques
+                to ensure you receive the best possible service every time you visit.
+            </p>
+        </div>
+    </div>
+
+    <!-- Why Choose Us Section -->
+    <div class="why-choose-us py-5 mb-5">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Why Choose Us</h2>
+            <p class="lead text-muted">What makes us different</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-award fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Expert Professionals</h4>
+                    <p class="text-muted">
+                        Highly trained and experienced beauty technicians dedicated to
+                        delivering exceptional results every time.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-gem fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Premium Products</h4>
+                    <p class="text-muted">
+                        We use only the highest quality products that are safe,
+                        effective, and gentle on your skin.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-smile fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Client Satisfaction</h4>
+                    <p class="text-muted">
+                        Your happiness is our priority. We listen to your needs and
+                        work to exceed your expectations.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-palette fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Creative Artistry</h4>
+                    <p class="text-muted">
+                        From classic elegance to bold statements, we bring your
+                        beauty vision to life with artistic flair.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-shield-alt fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Hygiene Standards</h4>
+                    <p class="text-muted">
+                        We maintain the highest standards of cleanliness and
+                        sanitation for your safety and peace of mind.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="feature-card card border-0 shadow-sm h-100 text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-clock fa-3x text-primary"></i>
+                    </div>
+                    <h4 class="mb-3">Flexible Scheduling</h4>
+                    <p class="text-muted">
+                        Convenient booking options with flexible hours to fit
+                        your busy lifestyle.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-section py-5 mb-5">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Get In Touch</h2>
+            <p class="lead text-muted">We'd love to hear from you</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="contact-card card border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-map-marker-alt fa-2x text-primary mb-3"></i>
+                    <h5 class="mb-2">Location</h5>
+                    <p class="text-muted mb-0">
+                        {% if user and user.business_name %}
+                        {{ user.business_name }}<br>
+                        {% endif %}
+                        Your Address Here<br>
+                        City, State ZIP
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="contact-card card border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-phone fa-2x text-primary mb-3"></i>
+                    <h5 class="mb-2">Phone</h5>
+                    <p class="text-muted mb-0">
+                        {% if user and user.phone %}
+                        <a href="tel:{{ user.phone }}" class="text-decoration-none text-muted">
+                            {{ user.phone }}
+                        </a>
+                        {% else %}
+                        (555) 123-4567
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="contact-card card border-0 shadow-sm text-center p-4">
+                    <i class="fas fa-envelope fa-2x text-primary mb-3"></i>
+                    <h5 class="mb-2">Email</h5>
+                    <p class="text-muted mb-0">
+                        {% if user and user.email %}
+                        <a href="mailto:{{ user.email }}" class="text-decoration-none text-muted">
+                            {{ user.email }}
+                        </a>
+                        {% else %}
+                        info@example.com
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Media -->
+        <div class="text-center mb-5">
+            <h5 class="mb-3">Follow Us</h5>
+            <div class="d-flex gap-3 justify-content-center">
+                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-lg rounded-circle">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testimonials Section -->
+    {% if testimonials %}
+    <div class="testimonials-section py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-6 fw-bold mb-3">Client Testimonials</h2>
+            <p class="lead text-muted">Hear what our happy clients have to say</p>
+        </div>
+
+        <div class="row g-4">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6 col-lg-4">
+                <div class="testimonial-card card border-0 shadow-sm h-100">
+                    <div class="card-body p-4">
+                        <div class="mb-3">
+                            {% for i in range(testimonial.rating) %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% endfor %}
+                            {% for i in range(5 - testimonial.rating) %}
+                            <i class="far fa-star text-warning"></i>
+                            {% endfor %}
+                        </div>
+                        <p class="card-text mb-4">"{{ testimonial.content }}"</p>
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-circle bg-primary text-white me-3">
+                                {{ testimonial.client_name[0].upper() }}
+                            </div>
+                            <div>
+                                <h6 class="mb-0">{{ testimonial.client_name }}</h6>
+                                {% if testimonial.service_type %}
+                                <small class="text-muted">{{ testimonial.service_type }}</small>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- CTA Section -->
+<div class="container mt-5 mb-5">
+    <div class="cta-box text-center p-5 rounded">
+        <h3 class="mb-3">Ready to Experience the Difference?</h3>
+        <p class="lead mb-4">Book your appointment today and discover why our clients love us</p>
+        <div class="d-flex gap-3 justify-content-center flex-wrap">
+            <a href="{{ url_for('login') }}" class="btn btn-light btn-lg px-5">
+                <i class="fas fa-calendar-check me-2"></i>Book Appointment
+            </a>
+            <a href="{{ url_for('services_page') }}" class="btn btn-outline-light btn-lg px-5">
+                <i class="fas fa-list me-2"></i>View Services
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        padding: 2rem 0;
+    }
+
+    .about-image-placeholder {
+        height: 400px;
+    }
+
+    .feature-card, .contact-card, .testimonial-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .feature-card:hover, .contact-card:hover, .testimonial-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+    }
+
+    .feature-icon {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .avatar-circle {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .cta-box {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+
+    .btn-lg.rounded-circle {
+        width: 60px;
+        height: 60px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+        .about-image-placeholder {
+            height: 250px;
+        }
+    }
+</style>
+{% endblock %}

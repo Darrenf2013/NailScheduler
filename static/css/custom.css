@@ -158,3 +158,218 @@ body {
         max-width: 85%;
     }
 }
+
+/* Marketing Pages Styles */
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* General transitions */
+.btn, .card, a {
+    transition: all 0.3s ease;
+}
+
+/* Hero sections */
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Service cards */
+.service-card {
+    height: 100%;
+}
+
+.service-card .card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Portfolio items */
+.portfolio-item {
+    overflow: hidden;
+    border-radius: 0.5rem;
+}
+
+.portfolio-item img,
+.portfolio-item video {
+    transition: transform 0.3s ease;
+}
+
+.portfolio-item:hover img,
+.portfolio-item:hover video {
+    transform: scale(1.1);
+}
+
+/* Gradient backgrounds */
+.gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.gradient-secondary {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* CTA sections */
+.cta-section, .cta-box {
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before, .cta-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    pointer-events: none;
+}
+
+/* Testimonial cards */
+.testimonial-card {
+    height: 100%;
+}
+
+/* Avatar circles for testimonials */
+.avatar-circle {
+    flex-shrink: 0;
+}
+
+/* Feature cards */
+.feature-card {
+    height: 100%;
+}
+
+/* Contact cards */
+.contact-card {
+    height: 100%;
+}
+
+/* Social media buttons */
+.btn.rounded-circle {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn.rounded-circle:hover {
+    transform: scale(1.1);
+}
+
+/* Video wrapper */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Modals */
+.modal-content {
+    border-radius: 1rem;
+}
+
+/* Section spacing */
+.py-section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+}
+
+/* Text gradients */
+.text-gradient {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hover effects for links */
+a.nav-link:hover {
+    color: var(--bs-primary) !important;
+}
+
+/* Badge styles */
+.badge {
+    font-weight: 500;
+}
+
+/* Page headers */
+.page-header {
+    position: relative;
+}
+
+.page-header::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--bs-primary), transparent);
+    margin: 1rem auto 0;
+}
+
+/* Image placeholders */
+.about-image-placeholder {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+}
+
+/* Star ratings */
+.fa-star {
+    font-size: 0.9rem;
+}
+
+/* Button animations */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+
+    .display-3 {
+        font-size: 2.5rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .display-5 {
+        font-size: 1.75rem;
+    }
+
+    .display-6 {
+        font-size: 1.5rem;
+    }
+
+    .btn-lg {
+        padding: 0.5rem 1.5rem;
+    }
+}
+
+/* Loading states */
+.skeleton {
+    background: linear-gradient(90deg,
+        rgba(255, 255, 255, 0.1) 25%,
+        rgba(255, 255, 255, 0.2) 50%,
+        rgba(255, 255, 255, 0.1) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}

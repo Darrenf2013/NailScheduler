@@ -5,7 +5,7 @@ import json
 import logging
 import datetime
 from app import app, db
-from models import User, Client, TimeSlot, Appointment, Service, Settings, MessageThread, Message
+from models import User, Client, TimeSlot, Appointment, Service, Settings, MessageThread, Message, PortfolioCategory, PortfolioItem, Testimonial
 from facebook_messenger import FacebookMessenger
 from instagram_api import InstagramAPI
 from messaging import MessageHandler
@@ -26,16 +26,24 @@ message_handler = MessageHandler()
 
 @app.route('/')
 def index():
-    # Add a consistent message to help with debugging
-    print("=== Index route accessed ===")
-    print(f"Is user authenticated: {current_user.is_authenticated}")
-    
-    if current_user.is_authenticated:
-        print(f"User is authenticated, redirecting to dashboard: {current_user.username}")
-        return redirect(url_for('dashboard'))
-    else:
-        print("User is not authenticated, redirecting to login")
-        return redirect(url_for('login'))
+    # Public homepage - show marketing content
+    # Get featured portfolio items
+    featured_items = PortfolioItem.query.filter_by(is_featured=True).order_by(PortfolioItem.display_order).limit(6).all()
+
+    # Get portfolio categories
+    categories = PortfolioCategory.query.all()
+
+    # Get featured testimonials
+    testimonials = Testimonial.query.filter_by(is_featured=True).order_by(Testimonial.created_at.desc()).limit(3).all()
+
+    # Get services
+    services = Service.query.limit(6).all()
+
+    return render_template('home.html',
+                         featured_items=featured_items,
+                         categories=categories,
+                         testimonials=testimonials,
+                         services=services)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -676,6 +684,56 @@ def calendar_events():
         })
     
     return jsonify(events)
+
+@app.route('/portfolio')
+def portfolio():
+    # Get filter by category if provided
+    category_name = request.args.get('category', 'all')
+
+    # Get all categories for the filter menu
+    categories = PortfolioCategory.query.all()
+
+    # Get portfolio items
+    if category_name != 'all':
+        category = PortfolioCategory.query.filter_by(name=category_name).first()
+        if category:
+            items = PortfolioItem.query.filter_by(category_id=category.id).order_by(PortfolioItem.display_order, PortfolioItem.created_at.desc()).all()
+        else:
+            items = []
+    else:
+        items = PortfolioItem.query.order_by(PortfolioItem.display_order, PortfolioItem.created_at.desc()).all()
+
+    return render_template('portfolio.html',
+                         items=items,
+                         categories=categories,
+                         selected_category=category_name)
+
+
+@app.route('/services')
+def services_page():
+    # Get all services grouped by category
+    all_services = Service.query.all()
+
+    # Get categories
+    categories = PortfolioCategory.query.all()
+
+    return render_template('services.html',
+                         services=all_services,
+                         categories=categories)
+
+
+@app.route('/about')
+def about():
+    # Get user/business info (assuming single user for now)
+    user = User.query.first()
+
+    # Get testimonials
+    testimonials = Testimonial.query.order_by(Testimonial.created_at.desc()).limit(6).all()
+
+    return render_template('about.html',
+                         user=user,
+                         testimonials=testimonials)
+
 
 # Create a user route for initial setup
 @app.route('/setup', methods=['GET', 'POST'])

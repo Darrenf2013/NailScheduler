@@ -114,11 +114,53 @@ class Settings(db.Model):
     business_hours = db.Column(db.Text)  # Stored as JSON
     auto_reply_enabled = db.Column(db.Boolean, default=True)
     default_appointment_duration = db.Column(db.Integer, default=60)  # minutes
-    
+
     def get_business_hours(self):
         if self.business_hours:
             return json.loads(self.business_hours)
         return {}
-    
+
     def set_business_hours(self, hours_dict):
         self.business_hours = json.dumps(hours_dict)
+
+
+class PortfolioCategory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)  # 'nails', 'eyelashes', 'eyebrows'
+    display_name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.Text)
+
+    # Relationships
+    items = db.relationship('PortfolioItem', backref='category', lazy=True)
+
+    def __repr__(self):
+        return f"<PortfolioCategory: {self.display_name}>"
+
+
+class PortfolioItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('portfolio_category.id'), nullable=False)
+    title = db.Column(db.String(200))
+    description = db.Column(db.Text)
+    media_type = db.Column(db.String(20), nullable=False)  # 'image' or 'video'
+    media_url = db.Column(db.String(500), nullable=False)  # URL or path to the media file
+    thumbnail_url = db.Column(db.String(500))  # For videos, a thumbnail image
+    is_featured = db.Column(db.Boolean, default=False)  # Featured items show on homepage
+    display_order = db.Column(db.Integer, default=0)  # For ordering items
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<PortfolioItem: {self.title} ({self.media_type})>"
+
+
+class Testimonial(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    client_name = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    rating = db.Column(db.Integer, default=5)  # 1-5 stars
+    service_type = db.Column(db.String(100))  # Which service they had
+    is_featured = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f"<Testimonial from {self.client_name}>"
