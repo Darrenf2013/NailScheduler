@@ -1,5 +1,14 @@
 /* Custom CSS Styles */
 
+.hero-section {
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url('/static/Icons/logo.jpg') center/cover no-repeat;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /* General Styles */
 body {
     min-height: 100vh;

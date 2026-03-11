@@ -1,9 +1,12 @@
-from app import app  # noqa: F401
-import routes  # noqa: F401
-import logging
+from flask import Flask, render_template
 
-# Set up logging
-logging.basicConfig(level=logging.DEBUG)
+app = Flask(__name__)
+app.config['Env'] = "Development"
+app.config['Debug'] = True
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+if __name__ == '__main__':
+    app.run()
